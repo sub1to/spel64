@@ -150,7 +150,7 @@ namespace spel64
 		DEBUG_MSG("Finished loading library %d\n", ret);
 
 	LABEL_RETURN:
-		if(pShellCode && !VirtualFreeEx(hProc, pShellCode, 0, MEM_RELEASE))
+		if(pShellCode && !VirtualFreeEx(hProc, pShellCode, 0, MEM_RELEASE) && ret == SPEL64_R_OK)
 			ret		= SPEL64_R_FAILED_TO_FREE_REMOTE_MEMORY;
 
 		if(pFile != nullptr)
@@ -361,7 +361,11 @@ namespace spel64
 			goto LABEL_RETURN;
 		}
 
-		ResumeThread(hThread);
+		if(ResumeThread(hThread) == 0xFFFFFFFF)
+		{
+			ret		= SPEL64_R_FAILED_TO_RESUME_THREAD;
+			goto LABEL_RETURN;
+		}
 
 		if(ullFlags & THREADFLAG_SYNC)
 		{

@@ -37,6 +37,7 @@ namespace spel64
 		SPEL64_R_FAILED_TO_SUSPEND_THREAD					= 12,
 		SPEL64_R_FAILED_TO_GET_THREAD_CONTEXT				= 13,
 		SPEL64_R_FAILED_TO_SET_THREAD_CONTEXT				= 14,
+		SPEL64_R_FAILED_TO_RESUME_THREAD,
 	};
 
 	enum eThreadFlags : unsigned long long
