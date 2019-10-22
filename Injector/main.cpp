@@ -2,10 +2,8 @@
 #include <stdio.h>
 #include <conio.h>
 #include <fstream>
-#include "../Release/spel64.h"
+#include "spel64.h"
 #include <tlhelp32.h>
-
-#pragma comment(lib, "../Release/spel64.lib")
 
 int main(int argc, char* argv)
 {

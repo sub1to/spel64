@@ -10,18 +10,27 @@ project "Injector"
 		"Injector/**.cpp",
 		"Injector/**.h",
 		"Injector/**.rc",
+		
+		"spel64/spel64.h",
 	}	
 	
 	vpaths {
-		["*"]	= { "Injector" },
+		["*"]			= { "Injector" },
+		["spel64/*"]	= { "spel64" },
 	}
 	
 	includedirs {
 		"Injector/",
+		"spel64/",
 	}
 	
 	libdirs {
 		"Injector/",
+		"spel64/",
+	}
+	
+	links {
+		"spel64",
 	}
 		
 	filter "configurations:Debug"
