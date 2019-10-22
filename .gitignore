@@ -2,3 +2,7 @@
 notes
 x64
 Release
+*.exe
+bin/
+.projects/
+.build/
