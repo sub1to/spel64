@@ -14,6 +14,7 @@ namespace Payload
 		const void*		pImportDescriptorTable;
 		const void*		pLoadLibraryA;
 		const void*		pGetProcAddress;
+		uint64_t		lpReserved;
 	} PEIC;
 
 	typedef struct THC	//THREAD_HIJACKER_CONTEXT

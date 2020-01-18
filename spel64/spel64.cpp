@@ -54,7 +54,7 @@ namespace spel64
 		return ret;
 	}
 
-	__declspec(noinline) eSpelResponse	load_library_ex(HANDLE hProc, const char* szPath, HMODULE* pOut, const uint64_t ullFlags)
+	__declspec(noinline) eSpelResponse	load_library_ex(HANDLE hProc, const char* szPath, HMODULE* pOut, const uint64_t ullFlags, const uint64_t lpReserved)
 	{
 		eSpelResponse					ret;
 		char*							pLocalBuffer;
@@ -63,7 +63,7 @@ namespace spel64
 		size_t							ullBufferSize;		
 		IMAGE_NT_HEADERS*				pNt;
 		BYTE*							pFile;
-		Payload::PEIC					PEIC;
+		Payload::PEIC					PEIC	= {};
 	
 		pRemoteBuffer		= nullptr;
 		pShellCode			= nullptr;
@@ -127,6 +127,7 @@ namespace spel64
 		PEIC.pImportDescriptorTable		= reinterpret_cast<IMAGE_IMPORT_DESCRIPTOR*>(pRemoteBuffer + reinterpret_cast<IMAGE_DATA_DIRECTORY*>(pNt->OptionalHeader.DataDirectory + IMAGE_DIRECTORY_ENTRY_IMPORT)->VirtualAddress);
 		PEIC.pLoadLibraryA				= LoadLibraryA;
 		PEIC.pGetProcAddress			= GetProcAddress;
+		PEIC.lpReserved					= lpReserved;
 		pShellCode						= reinterpret_cast<char*>(VirtualAllocEx(hProc, nullptr, PE_INIT_SIZE, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE));
 
 		if(pShellCode == nullptr)

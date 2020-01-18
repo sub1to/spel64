@@ -26,6 +26,7 @@ int __stdcall DllMain
 	freopen_s(&pCout, "conout$", "w", stdout);
 	freopen_s(&pCout, "conout$", "w", stderr);
 
+	printf_s("lpReserved: %lld\n", (uint64_t) lpReserved);
 	//*
 	switch (fdwReason)
 	{

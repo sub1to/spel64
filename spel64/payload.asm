@@ -20,7 +20,7 @@ INCLUDE spel64.inc
 		mov rax, pe_init_context.pe_entry_point_address
 		mov rcx, pe_init_context.pe_module_address
 		mov rdx, DLL_PROCESS_ATTACH
-		xor r8, r8
+		mov r8, pe_init_context.lp_reserved
 		call rax
 
 		lea rsp, [rbp]

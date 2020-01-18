@@ -32,7 +32,7 @@ int main(int argc, char* argv)
 	printf_s("Loading library...\n");
 
 	//response		= spel64::load_library_ex(hProc, "V:\\projects\\spel64\\Release\\Dummy.dll", &hModule);
-	response		= spel64::load_library_ex(hProc, "Dummy.dll", &hModule);
+	response		= spel64::load_library_ex(hProc, "Dummy.dll", &hModule, 0, 1234);
 
 	if(response != spel64::SPEL64_R_OK)
 	{

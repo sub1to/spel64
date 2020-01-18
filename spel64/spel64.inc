@@ -89,6 +89,7 @@ PEIC STRUCT 8h
 	pe_import_descriptor_table		qword 0h
 	load_library_address			qword 0h
 	get_proc_addr_address			qword 0h
+	lp_reserved						qword 0h
 PEIC ENDS
 
 THC STRUCT 8h

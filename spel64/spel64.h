@@ -89,7 +89,7 @@ namespace spel64
 	*
 	*	@return	eSpelResponse
 	*/
-	extern "C" eSpelResponse	SPEL64API	load_library_ex(const HANDLE hProc, const char* szPath, HMODULE* pOut, const uint64_t ullFlags = SPEL64_FLAGS_DEFAULT);
+	extern "C" eSpelResponse	SPEL64API	load_library_ex(const HANDLE hProc, const char* szPath, HMODULE* pOut, const uint64_t ullFlags = SPEL64_FLAGS_DEFAULT, const uint64_t lpReserved = 0);
 
 	/**
 	*	Free a dynamic library in a remote process
