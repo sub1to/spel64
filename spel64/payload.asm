@@ -136,12 +136,12 @@ INCLUDE spel64.inc
 		push r10
 		push r11
 		lea rsp, [rsp - 60h]
-		vmovdqu oword ptr [rsp + 00h], xmm0
-		vmovdqu oword ptr [rsp + 10h], xmm1
-		vmovdqu oword ptr [rsp + 20h], xmm2
-		vmovdqu oword ptr [rsp + 30h], xmm3
-		vmovdqu oword ptr [rsp + 40h], xmm4
-		vmovdqu oword ptr [rsp + 50h], xmm5
+		movdqu oword ptr [rsp + 00h], xmm0
+		movdqu oword ptr [rsp + 10h], xmm1
+		movdqu oword ptr [rsp + 20h], xmm2
+		movdqu oword ptr [rsp + 30h], xmm3
+		movdqu oword ptr [rsp + 40h], xmm4
+		movdqu oword ptr [rsp + 50h], xmm5
 
 		; Auto stack alignment
 		lea rsp, [rsp - 28h]				; 8h alignemnt offset + 20h shadow space
@@ -160,12 +160,12 @@ INCLUDE spel64.inc
 		lea rsp, [rsp + 28h]
 
 		; Restore the volatile registers
-		vmovdqu xmm5, oword ptr [rsp + 50h]
-		vmovdqu xmm4, oword ptr [rsp + 40h]
-		vmovdqu xmm3, oword ptr [rsp + 30h]
-		vmovdqu xmm2, oword ptr [rsp + 20h]
-		vmovdqu xmm1, oword ptr [rsp + 10h]
-		vmovdqu xmm0, oword ptr [rsp + 00h]
+		movdqu xmm5, oword ptr [rsp + 50h]
+		movdqu xmm4, oword ptr [rsp + 40h]
+		movdqu xmm3, oword ptr [rsp + 30h]
+		movdqu xmm2, oword ptr [rsp + 20h]
+		movdqu xmm1, oword ptr [rsp + 10h]
+		movdqu xmm0, oword ptr [rsp + 00h]
 		lea rsp, [rsp + 60h]
 		pop r11
 		pop r10
