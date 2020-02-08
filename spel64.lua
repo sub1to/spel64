@@ -24,17 +24,17 @@ project "spel64"
 		"spel64/",
 	}
 		
-	filter "configurations:Debug"
+	filter "configurations:Debug*"
 		defines { "DEBUG" }
 		optimize "Off"
 		symbols "On"
 		
-	filter "configurations:Dev"
+	filter "configurations:Dev*"
 		flags { "LinkTimeOptimization", "NoIncrementalLink" }
 		optimize "Off"
 		symbols "Off"
 		
-	filter "configurations:Release"
+	filter "configurations:Release*"
 		flags { "LinkTimeOptimization", "NoIncrementalLink" }
 		defines { "NDEBUG" }
 		optimize "Full"
