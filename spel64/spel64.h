@@ -52,6 +52,7 @@ namespace spel64
 		SPEL64FLAG_NO_PE_HEADER			= 1 << 0,		// Hide PE header
 		SPEL64FLAG_HIJACK_THREAD		= 1 << 1,		// Hijack a thread instead of creating a new thread (to execute the entry point)
 		SPEL64FLAG_NO_LDR				= 1 << 2,		// Not implemented
+		SPEL64FLAG_FROM_MEMORY			= 1 << 3,		// Load a library from memory, instead of from file
 	};
 
 	#define SPEL64_FLAGS_DEFAULT	spel64::SPEL64FLAG_NO_PE_HEADER | spel64::SPEL64FLAG_HIJACK_THREAD | spel64::SPEL64FLAG_NO_LDR

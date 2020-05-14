@@ -25,9 +25,9 @@ typedef int (__stdcall* fpDllMain)(HMODULE hModule, DWORD fdwReason, LPVOID lpRe
 
 namespace spel64
 {
-	__declspec(noinline) BYTE*		read_file(const char* szPath, size_t* pSizeOut = nullptr)
+	__declspec(noinline) const char*		read_file(const char* szPath, size_t* pSizeOut = nullptr)
 	{
-		BYTE*				ret;
+		char*				ret;
 		std::ifstream		file;
 		size_t				ullSize;
 
@@ -45,7 +45,7 @@ namespace spel64
 		if(pSizeOut != nullptr)
 			*pSizeOut	= ullSize;
 
-		ret		= new BYTE[ullSize];
+		ret		= new char[ullSize];
 
 		file.read((char*) ret, ullSize);
 		file.close();
@@ -62,13 +62,13 @@ namespace spel64
 		char*							pRemoteBuffer;
 		size_t							ullBufferSize;		
 		IMAGE_NT_HEADERS*				pNt;
-		BYTE*							pFile;
+		const char*						pFile;
 		Payload::PEIC					PEIC	= {};
 	
 		pRemoteBuffer		= nullptr;
 		pShellCode			= nullptr;
 		pLocalBuffer		= nullptr;
-		pFile				= read_file(szPath);
+		pFile				= (ullFlags & SPEL64FLAG_FROM_MEMORY) ? szPath : read_file(szPath);
 
 		if(pFile == nullptr)
 		{
@@ -104,7 +104,7 @@ namespace spel64
 
 		DEBUG_MSG("Mapping image into local memory\n");
 
-		ret		= map_image(pLocalBuffer, reinterpret_cast<char*>(pFile), pRemoteBuffer, ullFlags);
+		ret		= map_image(pLocalBuffer, pFile, pRemoteBuffer, ullFlags);
 
 		if(ret != SPEL64_R_OK)
 			goto LABEL_RETURN;
@@ -154,7 +154,7 @@ namespace spel64
 		if(pShellCode && !VirtualFreeEx(hProc, pShellCode, 0, MEM_RELEASE) && ret == SPEL64_R_OK)
 			ret		= SPEL64_R_FAILED_TO_FREE_REMOTE_MEMORY;
 
-		if(pFile != nullptr)
+		if(!(ullFlags & SPEL64FLAG_FROM_MEMORY) && pFile != nullptr)
 			delete[] pFile;
 
 		if(pLocalBuffer != nullptr)
