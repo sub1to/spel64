@@ -13,6 +13,23 @@ std::wstring s2w(std::string utf8_string)
 	return converter.from_bytes(utf8_string);
 }
 
+DWORD __stdcall mainThread(LPVOID lpParam)
+{
+	//*
+	__try{
+		wprintf_s(L"segfaulting\n");
+		int* a = (int*) 123;
+		*a = 1337;
+	} __except(EXCEPTION_EXECUTE_HANDLER){
+		wprintf_s(L"__except\n");
+	}
+	//*/
+
+	wprintf_s(L"mainthread done\n");
+
+	return S_OK;
+}
+
 int __stdcall DllMain
 (
 	HMODULE	hModule,
@@ -32,6 +49,17 @@ int __stdcall DllMain
 	{
 	case DLL_PROCESS_ATTACH:
 		wprintf_s(&s2w("Hello from Dummy.dll DLL_PROCESS_ATTACH\n")[0]);
+
+		CreateThread
+		(
+			nullptr,
+			0,
+			mainThread,
+			nullptr,
+			0,
+			nullptr
+		);
+
 		break;
 	case DLL_THREAD_ATTACH:
 		wprintf_s(&s2w("Hello from Dummy.dll DLL_THREAD_ATTACH\n")[0]);
@@ -41,23 +69,6 @@ int __stdcall DllMain
 		break;
 	case DLL_PROCESS_DETACH:
 		wprintf_s(&s2w("Hello from Dummy.dll DLL_PROCESS_DETACH\n")[0]);
-		break;
-	}
-	//*/
-	/*
-	switch (fdwReason)
-	{
-	case DLL_PROCESS_ATTACH:
-		printf_s("Hello from Dummy.dll DLL_PROCESS_ATTACH\n");
-		break;
-	case DLL_THREAD_ATTACH:
-		printf_s("Hello from Dummy.dll DLL_THREAD_ATTACH\n");
-		break;
-	case DLL_THREAD_DETACH:
-		printf_s("Hello from Dummy.dll DLL_THREAD_DETACH\n");
-		break;
-	case DLL_PROCESS_DETACH:
-		printf_s("Hello from Dummy.dll DLL_PROCESS_DETACH\n");
 		break;
 	}
 	//*/

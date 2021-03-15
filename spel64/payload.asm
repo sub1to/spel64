@@ -1,5 +1,42 @@
 INCLUDE spel64.inc
 
+; seh_setup pe_init_context.pe_module_address, pe_init_context.add_function_table_address
+; seh_setup pe_free_context.pe_module_address, pe_free_context.delete_function_table_address
+seh_setup MACRO module, winapi_fn
+	push rbp
+	mov rbp, rsp 
+	lea rsp, [rsp-20h]
+
+	mov r8, module
+
+	; Get the directory
+	mov ecx, DWORD PTR IMAGE_DOS_HEADER.e_lfanew[r8]
+	add rcx, module
+	lea rcx, IMAGE_NT_HEADERS64.OptionalHeader.DataDirectory[rcx]
+	add rcx, 18h													; IMAGE_DIRECTORY_ENTRY_EXCEPTION * sizeof(IMAGE_DATA_DIRECTORY)
+	mov eax, DWORD PTR IMAGE_DATA_DIRECTORY._Size[rcx]
+	test eax, eax
+	jz macro_return
+
+	; Divide the directory size by the entry size
+	xor rdx, rdx
+	mov r9, 0Ch														; sizeof(IMAGE_RUNTIME_FUNCTION_ENTRY)	= C
+	div r9
+	mov edx, eax
+
+	; Get pointer to the table
+	mov ecx, DWORD PTR IMAGE_DATA_DIRECTORY.VirtualAddress[rcx]
+	add rcx, module
+
+	mov rax, winapi_fn
+	call rax
+
+macro_return:
+	mov rsp, rbp
+	pop rbp
+	ret
+ENDM
+
 .DATA
 
 .CODE
@@ -15,6 +52,7 @@ INCLUDE spel64.inc
 		lea rsp, [rsp - 20h]
 
 		call pe_imports
+		call pe_add_seh
 
 		; Call entry point
 		mov rax, pe_init_context.pe_entry_point_address
@@ -114,6 +152,10 @@ INCLUDE spel64.inc
 
 	pe_imports ENDP
 
+	pe_add_seh PROC
+		seh_setup pe_init_context.pe_module_address, pe_init_context.add_function_table_address
+	pe_add_seh ENDP
+
 	PUBLIC pe_init_end
 	pe_init_end PROC
 		int 3
@@ -212,11 +254,17 @@ INCLUDE spel64.inc
 		xor r8, r8
 		call rax
 
+		call pe_del_seh
+
 		lea rsp, [rbp]
 		pop rbp
 		ret
 
 	pe_free ENDP
+
+	pe_del_seh PROC
+		seh_setup pe_free_context.pe_module_address, pe_free_context.delete_function_table_address
+	pe_del_seh ENDP
 
 	PUBLIC pe_free_end
 	pe_free_end PROC

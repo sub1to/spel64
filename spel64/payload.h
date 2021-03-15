@@ -14,6 +14,7 @@ namespace Payload
 		const void*		pImportDescriptorTable;
 		const void*		pLoadLibraryA;
 		const void*		pGetProcAddress;
+		const void*		pRtlAddFunctionTable;
 		uint64_t		lpReserved;
 	} PEIC;
 
@@ -27,6 +28,7 @@ namespace Payload
 	{
 		const void*		pModule;
 		const void*		pEntryPoint;
+		const void*		pRtlDeleteFunctionTable;
 	} PEFC;
 
 	extern "C" PEIC		pe_init_context;

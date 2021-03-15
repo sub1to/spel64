@@ -127,6 +127,7 @@ namespace spel64
 		PEIC.pImportDescriptorTable		= reinterpret_cast<IMAGE_IMPORT_DESCRIPTOR*>(pRemoteBuffer + reinterpret_cast<IMAGE_DATA_DIRECTORY*>(pNt->OptionalHeader.DataDirectory + IMAGE_DIRECTORY_ENTRY_IMPORT)->VirtualAddress);
 		PEIC.pLoadLibraryA				= LoadLibraryA;
 		PEIC.pGetProcAddress			= GetProcAddress;
+		PEIC.pRtlAddFunctionTable		= RtlAddFunctionTable;
 		PEIC.lpReserved					= lpReserved;
 		pShellCode						= reinterpret_cast<char*>(VirtualAllocEx(hProc, nullptr, PE_INIT_SIZE, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE));
 
@@ -217,9 +218,10 @@ namespace spel64
 			goto LABEL_RETURN;
 		}
 
-		PEFC.pEntryPoint	= pEntryPoint;
-		PEFC.pModule		= hModule;
-		pShellCode			= reinterpret_cast<char*>(VirtualAllocEx(hProc, nullptr, PE_FREE_SIZE, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE));
+		PEFC.pEntryPoint				= pEntryPoint;
+		PEFC.pModule					= hModule;
+		PEFC.pRtlDeleteFunctionTable	= RtlDeleteFunctionTable;
+		pShellCode						= reinterpret_cast<char*>(VirtualAllocEx(hProc, nullptr, PE_FREE_SIZE, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE));
 
 		if(pShellCode == nullptr)
 		{

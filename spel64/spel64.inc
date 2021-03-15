@@ -89,6 +89,7 @@ PEIC STRUCT 8h
 	pe_import_descriptor_table		qword 0h
 	load_library_address			qword 0h
 	get_proc_addr_address			qword 0h
+	add_function_table_address		qword 0h
 	lp_reserved						qword 0h
 PEIC ENDS
 
@@ -100,6 +101,7 @@ THC ENDS
 PEFC STRUCT 8h
 	pe_module_address				qword 0h
 	pe_entry_point_address			qword 0h
+	delete_function_table_address	qword 0h
 PEFC ENDS
 
 FREE_LIB_HEADER STRUCT 8h
