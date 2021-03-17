@@ -51,6 +51,8 @@ to get more details about the WinAPI error.
 |-----------------------------------|---------------------------------------|
 | SPEL64FLAG_NO_PE_HEADER           | Hide PE header                        |
 | SPEL64FLAG_HIJACK_THREAD          | Hijack a thread to execute entrypoint |
+
+`SPEL64FLAG_NO_PE_HEADER` will cause SEH not to work, because the module will not have access to the data directory inside the NT optional header.
   
 ## Examples  
   

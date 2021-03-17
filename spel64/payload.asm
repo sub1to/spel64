@@ -9,6 +9,11 @@ seh_setup MACRO module, winapi_fn
 
 	mov r8, module
 
+	; Check for the DOS signature
+	mov cx, WORD PTR [r8]
+	cmp cx, IMAGE_DOS_SIGNATURE
+	jnz macro_return
+
 	; Get the directory
 	mov ecx, DWORD PTR IMAGE_DOS_HEADER.e_lfanew[r8]
 	add rcx, module

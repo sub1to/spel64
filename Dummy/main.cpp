@@ -43,6 +43,8 @@ int __stdcall DllMain
 	freopen_s(&pCout, "conout$", "w", stdout);
 	freopen_s(&pCout, "conout$", "w", stderr);
 
+	BYTE*	p;
+
 	printf_s("lpReserved: %lld\n", (uint64_t) lpReserved);
 	//*
 	switch (fdwReason)
@@ -59,6 +61,10 @@ int __stdcall DllMain
 			0,
 			nullptr
 		);
+
+		p	= (BYTE*) hModule;
+
+		wprintf_s(L"DOS Sig: %c%c\n", p[0], p[1]);
 
 		break;
 	case DLL_THREAD_ATTACH:

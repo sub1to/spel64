@@ -202,7 +202,7 @@ INCLUDE spel64.inc
 		mov rdx, IMAGE_NT_HEADERS64.OptionalHeader.SizeOfImage
 		call _zeromem
 
-		and r8, SPEL64FLAG_NO_PE_HEADER
+		test r9, SPEL64FLAG_NO_PE_HEADER
 		jnz label_custom_header
 
 		; Place normal PE header
